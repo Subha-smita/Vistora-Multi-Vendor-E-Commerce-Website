@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Checkout | Vistora</title>
+<style>
+body{margin:0;font-family:Arial,sans-serif;background:#E6F2DD;color:#1E2B22}
+nav{background:#2F4A38;padding:14px 24px;display:flex;flex-wrap:wrap;gap:8px 20px;align-items:center}
+nav a{color:#fff;text-decoration:none}nav .logo{font-weight:bold;font-size:20px;margin-right:auto}
+main{max-width:1000px;margin:30px auto;padding:0 16px}
+h1{color:#2F4A38}a{color:#2F4A38}
+[hidden]{display:none!important}
+.box{background:#fff;border:1px solid #B1D3B9;border-radius:6px;padding:20px;margin-bottom:16px}
+label{display:block;margin:12px 0 4px}
+input,select,textarea{width:100%;padding:10px;border:1px solid #88BDA4;border-radius:4px;box-sizing:border-box;font:inherit;background:#fff;min-height:44px}
+input[type=checkbox],input[type=radio]{width:auto;min-height:0}
+button,.btn{background:#5C7057;color:#fff;border:0;padding:10px 18px;border-radius:4px;cursor:pointer;text-decoration:none;display:inline-block;font-size:15px;min-height:44px}
+button:hover,.btn:hover{background:#2F4A38}
+.ghost{background:#fff;color:#2F4A38;border:1px solid #5C7057}.ghost:hover{background:#D1EDD3;color:#2F4A38}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px}
+.item{background:#fff;border:1px solid #B1D3B9;border-radius:6px;padding:14px;display:flex;flex-direction:column}
+.item p{margin:4px 0 10px}.small{font-size:14px;color:#3D4F42}
+.img{height:120px;background:#88BDA4;border-radius:4px;margin-bottom:10px}
+.actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:auto}.actions button,.actions .btn{flex:1 1 110px;text-align:center}
+.filters{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:0 14px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:0 16px}.row3{display:grid;grid-template-columns:repeat(3,1fr);gap:0 16px}
+.two-col{display:grid;grid-template-columns:1fr 340px;gap:20px;align-items:start}
+.option{display:flex;gap:10px;align-items:center;border:1px solid #B1D3B9;border-radius:6px;padding:12px;margin:8px 0}.option label{margin:0}
+ul.list{list-style:none;padding:0;margin:0 0 10px}ul.list li{padding:8px 0;border-bottom:1px solid #D1EDD3}
+.sum{display:flex;justify-content:space-between;padding:6px 0}.total{font-size:20px;font-weight:bold;border-top:1px solid #B1D3B9;margin-top:6px;padding-top:12px}
+.row{display:flex;gap:10px}.row input{flex:1}
+.msg{background:#D1EDD3;border:1px solid #88BDA4;padding:10px;border-radius:4px;margin-top:12px}.msg:empty{display:none}
+@media(max-width:800px){.two-col{grid-template-columns:1fr}}
+@media(max-width:600px){.row2,.row3{grid-template-columns:1fr}.grid{grid-template-columns:1fr 1fr;gap:10px}.actions button,.actions .btn{flex:1 1 100%}nav{padding:12px 16px}}
+</style>
+</head>
+<body>
+<nav><a class="logo" href="index.html">Vistora</a><a href="vendors.html">Vendors</a><a href="coupons.html">Offers</a><a href="login.html">Sign in</a><a href="wishlist.html">Wishlist</a><a href="cart.html">Cart (<span class="badge">0</span>)</a></nav>
+<main>
+<h1>Checkout</h1>
+<div class="two-col">
+<form id="checkout">
+<div class="box"><h2>Delivery address</h2>
+<div class="row2"><div><label for="name">Full name</label><input id="name" name="name" type="text" required></div><div><label for="phone">Mobile number</label><input id="phone" name="phone" type="tel" required></div></div><label for="address">Address</label><input id="address" name="address" type="text" required>
+<div class="row3"><div><label for="city">City</label><input id="city" name="city" type="text" required></div><div><label for="state">State</label><select id="state">
+    <option>Gujarat</option>
+    <option>Odisha</option>
+    <option>Himanchal Pradesh</option>
+    <option>Punjab</option>
+    <option>Rajasthan</option>
+    <option>Karnataka</option>
+    <option>Maharashtra</option>
+    <option>Delhi</option>
+    <option>Tamil Nadu</option>
+    <option>West Bengal</option>
+</select></div><div><label for="pin">PIN code</label><input id="pin" name="pin" type="text" required></div></div></div>
+<div class="box"><h2>Delivery</h2>
+<div class="option"><input type="radio" id="d1" name="delivery" value="standard" checked><label for="d1">Standard, 2 to 4 days (free)</label></div>
+<div class="option"><input type="radio" id="d2" name="delivery" value="express"><label for="d2">Express, next day (₹99)</label></div></div>
+<div class="box"><h2>Payment</h2>
+<div class="option"><input type="radio" id="p1" name="pay" value="razorpay" checked><label for="p1">Razorpay (UPI, cards, net banking) - test mode</label></div>
+<div class="option"><input type="radio" id="p2" name="pay" value="cod"><label for="p2">Cash on delivery</label></div></div>
+
+</form>
+<aside class="box"><h2>Order summary</h2>
+<ul id="checkout-items" class="list"></ul>
+<div class="row"><label class="sr" for="coupon" style="display:none">Coupon code</label><input id="coupon" placeholder="Coupon code"><button type="button" class="ghost" data-action="apply-coupon">Apply</button></div>
+<p id="coupon-msg" class="small"></p>
+<div class="sum"><span>Subtotal</span><span id="sum-sub">₹0</span></div>
+<div class="sum"><span>Discount</span><span id="sum-discount">₹0</span></div>
+<div class="sum"><span>Shipping</span><span id="sum-ship">Free</span></div>
+<div class="sum total"><span>Total</span><span id="sum-total">₹0</span></div>
+<p><button type="submit" form="checkout" style="width:100%">Place order</button></p>
+<p id="order-msg" class="msg"></p>
+</aside>
+</div>
+</main>
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script src="js/config.js" defer></script>
+<script src="js/api.js" defer></script>
+<script src="js/main.js" defer></script>
+</body>
+</html>

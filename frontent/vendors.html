@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vendors | Vistora</title>
+<style>
+body{margin:0;font-family:Arial,sans-serif;background:#E6F2DD;color:#1E2B22}
+nav{background:#2F4A38;padding:14px 24px;display:flex;flex-wrap:wrap;gap:8px 20px;align-items:center}
+nav a{color:#fff;text-decoration:none}nav .logo{font-weight:bold;font-size:20px;margin-right:auto}
+main{max-width:900px;margin:30px auto;padding:0 16px}
+h1{color:#2F4A38}
+a{color:#2F4A38}
+.box{background:#fff;border:1px solid #B1D3B9;border-radius:6px;padding:20px;margin-bottom:16px}
+label{display:block;margin:12px 0 4px}
+input,select,textarea{width:100%;padding:10px;border:1px solid #88BDA4;border-radius:4px;box-sizing:border-box;font:inherit;background:#fff}
+textarea{min-height:90px}
+input[type=checkbox]{width:auto}
+button,.btn{background:#5C7057;color:#fff;border:0;padding:10px 18px;border-radius:4px;cursor:pointer;text-decoration:none;display:inline-block;font-size:15px;min-height:44px}
+button:hover,.btn:hover{background:#2F4A38}
+.ghost{background:#fff;color:#2F4A38;border:1px solid #5C7057}
+.ghost:hover{background:#D1EDD3;color:#2F4A38}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px}
+.item{background:#fff;border:1px solid #B1D3B9;border-radius:6px;padding:14px;display:flex;flex-direction:column}
+.item p{margin:6px 0 14px}
+.img{height:120px;background:#88BDA4;border-radius:4px;margin-bottom:10px}
+.actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:auto}
+.actions .btn,.actions button{flex:1 1 110px;text-align:center}
+.logo-box{width:60px;height:60px;border-radius:50%;background:#5C7057;color:#fff;display:grid;place-items:center;font-weight:bold;margin-bottom:10px}
+.head{display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+.code{font-size:24px;font-weight:bold;letter-spacing:2px;color:#2F4A38;border:2px dashed #B08D57;padding:8px 14px;display:inline-block;margin:8px 0}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:0 16px}
+.msg{background:#D1EDD3;border:1px solid #88BDA4;padding:10px;border-radius:4px;margin-top:12px}
+@media(max-width:600px){.row2{grid-template-columns:1fr}.grid{grid-template-columns:1fr 1fr;gap:10px}.actions button,.actions .btn{flex:1 1 100%}nav{padding:12px 16px}}
+</style>
+</head>
+<body>
+<nav><a class="logo" href="index.html">Vistora</a><a href="vendors.html">Vendors</a><a href="coupons.html">Offers</a><a href="login.html">Sign in</a><a href="wishlist.html">Wishlist</a><a href="cart.html">Cart (<span class="badge">0</span>)</a></nav>
+<main>
+<h1>Our vendors</h1>
+<p>Every vendor is reviewed before they sell.</p>
+<div class="grid" id="vendor-list"><p>Loading vendors...</p></div>
+<p style="margin-top:24px"><a href="vendor-register.html">Want to sell on Vistora? Apply here.</a></p>
+</main>
+<script src="js/config.js" defer></script>
+<script src="js/api.js" defer></script>
+<script src="js/main.js" defer></script>
+<script src="js/products.js" defer></script>
+</body>
+</html>

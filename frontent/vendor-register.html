@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Become a vendor | Vistora</title>
+
+<style>
+body{margin:0;font-family:Arial,sans-serif;background:#E6F2DD;color:#1E2B22}
+nav{background:#2F4A38;padding:14px 24px;display:flex;flex-wrap:wrap;gap:8px 20px;align-items:center}
+nav a{color:#fff;text-decoration:none}
+nav .logo{font-weight:bold;font-size:20px;margin-right:auto}
+main{max-width:900px;margin:30px auto;padding:0 16px}
+h1{color:#2F4A38}
+a{color:#2F4A38}
+.box{background:#fff;border:1px solid #B1D3B9;border-radius:6px;padding:20px;margin-bottom:16px}
+label{display:block;margin:12px 0 4px}
+input,select,textarea{width:100%;padding:10px;border:1px solid #88BDA4;border-radius:4px;box-sizing:border-box;font:inherit;background:#fff}
+textarea{min-height:90px}
+input[type=checkbox]{width:auto}
+input[type=file]{background:#F7FAF4}
+button,.btn{background:#5C7057;color:#fff;border:0;padding:10px 18px;border-radius:4px;cursor:pointer;text-decoration:none;display:inline-block;font-size:15px;min-height:44px}
+button:hover,.btn:hover{background:#2F4A38}
+button:disabled{opacity:.6;cursor:not-allowed}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px}
+.item{background:#fff;border:1px solid #B1D3B9;border-radius:6px;padding:14px;display:flex;flex-direction:column}
+.img{height:120px;background:#88BDA4;border-radius:4px;margin-bottom:10px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:0 16px}
+.msg{background:#D1EDD3;border:1px solid #88BDA4;padding:10px;border-radius:4px;margin-top:12px;overflow-wrap:anywhere}
+.help{font-size:13px;color:#59685A;margin-top:6px}
+.preview-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:12px;margin-top:14px}
+.preview-card{border:1px solid #B1D3B9;border-radius:6px;padding:8px;background:#F7FAF4;min-width:0}
+.preview-card img{width:100%;height:110px;object-fit:cover;border-radius:4px}
+.preview-name{font-size:12px;overflow-wrap:anywhere;margin-top:6px}
+@media(max-width:600px){
+ .row2{grid-template-columns:1fr}
+ .grid{grid-template-columns:1fr 1fr;gap:10px}
+ nav{padding:12px 16px}
+}
+</style>
+</head>
+
+<body data-auth="required">
+<nav>
+  <a class="logo" href="index.html">Vistora</a>
+  <a href="vendors.html">Vendors</a>
+  <a href="coupons.html">Offers</a>
+  <a href="login.html">Sign in</a>
+  <a href="wishlist.html">Wishlist</a>
+  <a href="cart.html">Cart (<span class="badge">0</span>)</a>
+</nav>
+
+<main>
+<h1>Open your store</h1>
+<p>We review every application, usually within 2 working days. Commission is a flat 10%.</p>
+
+<form id="vendor-form">
+
+  <div class="box">
+    <h2>Shop details</h2>
+
+    <label for="shop">Shop name</label>
+    <input id="shop" name="shop" type="text" required>
+
+    <label for="cat">Main category</label>
+    <select id="cat" name="cat" required>
+      <option value="Fashion">Fashion</option>
+      <option value="Electronics">Electronics</option>
+      <option value="Home">Home</option>
+      <option value="Beauty">Beauty</option>
+      <option value="Sports">Sports</option>
+      <option value="Other">Other</option>
+    </select>
+
+    <label for="about">About your shop</label>
+    <textarea id="about" name="about" placeholder="Tell customers about your shop"></textarea>
+  </div>
+
+  <!-- Product image upload -->
+  <div class="box">
+    <h2>Product images</h2>
+    <p>Upload photos of the products you plan to sell in your store.</p>
+
+    <label for="productImages">Choose product images</label>
+    <input
+      id="productImages"
+      name="productImages"
+      type="file"
+      accept="image/jpeg,image/png,image/webp"
+      multiple
+    >
+
+    <p class="help">Supported formats: JPG, PNG and WebP. Select multiple images if needed.</p>
+
+    <div id="image-message" class="help" role="status">
+      No images selected.
+    </div>
+
+    <div id="image-preview" class="preview-grid"></div>
+  </div>
+
+  <div class="box">
+    <h2>Owner and business</h2>
+
+    <div class="row2">
+      <div>
+        <label for="owner">Owner name</label>
+        <input id="owner" name="owner" type="text" required>
+      </div>
+
+      <div>
+        <label for="email">Email</label>
+        <input id="email" name="email" type="email" required>
+      </div>
+
+      <div>
+        <label for="mobile">Mobile number</label>
+        <input id="mobile" name="mobile" type="tel" required>
+      </div>
+
+      <div>
+        <label for="gst">GSTIN (optional)</label>
+        <input id="gst" name="gst" type="text">
+      </div>
+    </div>
+
+    <label for="addr">Pickup address</label>
+    <input id="addr" name="addr" type="text" required>
+  </div>
+
+  <div class="box">
+    <h2>Payout account</h2>
+
+    <div class="row2">
+      <div>
+        <label for="acc">Account number</label>
+        <input id="acc" name="acc" type="text" required>
+      </div>
+
+      <div>
+        <label for="ifsc">IFSC code</label>
+        <input id="ifsc" name="ifsc" type="text" required>
+      </div>
+    </div>
+  </div>
+
+  <p>
+    <label>
+      <input type="checkbox" required>
+      I accept the vendor agreement and commission terms
+    </label>
+  </p>
+
+  <button type="submit">Submit application</button>
+</form>
+</main>
+
+<script src="js/config.js" defer></script>
+<script src="js/api.js" defer></script>
+<script src="js/main.js" defer></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const input = document.getElementById('productImages');
+  const preview = document.getElementById('image-preview');
+  const message = document.getElementById('image-message');
+
+  let previewUrls = [];
+
+  input.addEventListener('change', () => {
+    previewUrls.forEach(url => URL.revokeObjectURL(url));
+    previewUrls = [];
+    preview.replaceChildren();
+
+    const files = Array.from(input.files || []);
+    const maxSize = 5 * 1024 * 1024;
+
+    if (files.length > 5) {
+      input.value = '';
+      message.textContent = 'Please select no more than 5 images.';
+      return;
+    }
+
+    const invalidFile = files.find(file =>
+      !['image/jpeg', 'image/png', 'image/webp'].includes(file.type) ||
+      file.size > maxSize
+    );
+
+    if (invalidFile) {
+      input.value = '';
+      message.textContent =
+        'Use JPG, PNG or WebP images, each no larger than 5 MB.';
+      return;
+    }
+
+    message.textContent = files.length
+      ? `${files.length} image(s) selected.`
+      : 'No images selected.';
+
+    files.forEach(file => {
+      const url = URL.createObjectURL(file);
+      previewUrls.push(url);
+
+      const card = document.createElement('div');
+      card.className = 'preview-card';
+
+      const img = document.createElement('img');
+      img.src = url;
+      img.alt = file.name;
+
+      const name = document.createElement('div');
+      name.className = 'preview-name';
+      name.textContent = file.name;
+
+      card.append(img, name);
+      preview.appendChild(card);
+    });
+  });
+
+  window.addEventListener('beforeunload', () => {
+    previewUrls.forEach(url => URL.revokeObjectURL(url));
+  });
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vistora | Multi-Vendor Marketplace</title>
+<meta name="description" content="Shop curated products from independent vendors in one place.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Jost:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+
+<style>
+/* Vistora image enhancements: retain the current theme and card layout. */
+.hero-art .ph, .cats .cat, .card .card-img {
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+}
+.hero-art .ph::before, .cats .cat::before, .card .card-img::before {
+  background: linear-gradient(180deg, rgba(12,35,52,.02) 35%, rgba(12,35,52,.38) 100%);
+}
+.cats .cat { min-height: 180px; }
+.card .card-img { display: block; min-height: 210px; }
+@media (max-width: 700px) {
+  .cats .cat { min-height: 140px; }
+  .card .card-img { min-height: 180px; }
+}
+
+/* ===== Hero upgrade ===== */
+.hero h1 em{font-style:normal;color:var(--gold-d);position:relative;white-space:nowrap}
+.hero h1 em::after{content:"";position:absolute;left:0;right:0;bottom:.04em;height:.14em;background:var(--gold);opacity:.35;border-radius:2px}
+.hero-stats{display:flex;gap:2rem;flex-wrap:wrap;margin-top:1.8rem;padding-top:1.4rem;border-top:1px solid var(--mist)}
+.hero-stats[hidden]{display:none}
+.hero-stats b{display:block;font:700 2rem/1 var(--serif);color:var(--forest)}
+.hero-stats span{font-size:.85rem;color:var(--ink-2)}
+
+.hero-art .ph{position:relative;display:block;overflow:hidden;transition:transform .35s ease,box-shadow .35s ease}
+.hero-art .ph:hover{transform:translateY(-6px);box-shadow:0 18px 40px rgba(31,50,38,.22)}
+.tile-label{position:absolute;left:.8rem;bottom:.8rem;background:rgba(255,255,255,.93);color:var(--forest);font:600 .9rem var(--sans);padding:.35rem .9rem;border-radius:999px;transition:background .25s,color .25s}
+.hero-art .ph:hover .tile-label{background:var(--forest);color:#fff}
+
+@keyframes rise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+.hero-copy>*{animation:rise .7s ease backwards}
+.hero-copy>*:nth-child(2){animation-delay:.08s}
+.hero-copy>*:nth-child(3){animation-delay:.16s}
+.hero-copy>*:nth-child(4){animation-delay:.24s}
+.hero-copy>*:nth-child(5){animation-delay:.32s}
+.hero-art .ph{animation:rise .8s ease backwards}
+.hero-art .ph:nth-child(2){animation-delay:.15s}
+.hero-art .ph:nth-child(3){animation-delay:.3s}
+@media(prefers-reduced-motion:reduce){.hero-copy>*,.hero-art .ph{animation:none}}
+/* ===== Hero: Relentless Olive (#71713E) ===== */
+</style>
+
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="topbar">Free shipping on orders above ₹999. Use code WELCOME10 for 10% off your first order.</div>
+
+<header class="header">
+  <div class="container header-row">
+    <a href="index.html" class="logo">Vistora</a>
+    <form class="search" role="search" action="search.html">
+      <label class="sr" for="q">Search products</label>
+      <select name="category" aria-label="Category"><option value="">All</option><option>Fashion</option>
+        <option>Electronics</option>
+        <option>Home</option>
+        <option>Sports</option>
+        <option>Beauty</option>
+        <option>Books</option></select>
+      <input id="q" name="q" type="search" placeholder="Search products, brands and vendors">
+      <button class="btn" type="submit">Search</button>
+    </form>
+    <nav class="actions" aria-label="Account">
+      <a href="login.html">Sign in</a>
+      <a href="orders.html">My orders</a>
+      <a href="wishlist.html">Wishlist</a>
+      <a href="cart.html" class="cart-link">Cart <span class="badge" id="cart-count">0</span></a>
+  
+    </nav>
+  </div>
+  <nav class="catnav" aria-label="Categories"><div class="container">
+    <a href="search.html?category=Fashion">Fashion</a><a href="search.html?category=Electronics">Electronics</a><a href="search.html?category=Home">Home and Living</a><a href="search.html?category=Beauty">Beauty</a><a href="search.html?category=Sports">Sports</a><a href="search.html?category=Books">Books</a><a href="search.html?sort=new">New arrivals</a><a href="vendor-register.html" class="gold">Sell with us</a>
+  </div></nav>
+</header>
+
+<main id="main">
+<section class="hero"><div class="container hero-grid">
+  <div class="hero-copy">
+    <h1>Considered goods from <em>independent makers</em></h1>
+    <p>One cart, many verified vendors. Every seller is reviewed before they list, and every order is tracked from packing to your door.</p>
+    <div class="hero-cta"><a href="search.html" class="btn btn-lg">Shop the collection</a><a href="vendor-register.html" class="btn btn-ghost btn-lg">Open your store</a></div>
+    <ul class="trust"><li>Verified vendors</li><li>Secure payments</li><li>Easy returns</li></ul>
+    <div class="hero-stats" id="hero-stats" hidden>
+      <div><b id="hs-products">0</b><span>products live</span></div>
+      <div><b id="hs-vendors">0</b><span>verified shops</span></div>
+    </div>
+  </div>
+  <div class="hero-art">
+    <a class="ph ph-a tall" href="search.html?category=Fashion" aria-label="Shop Fashion" data-cat="Fashion"><span class="tile-label">Fashion</span></a>
+    <a class="ph ph-b" href="search.html?category=Home" aria-label="Shop Home and Living" data-cat="Home"><span class="tile-label">Home and Living</span></a>
+    <a class="ph ph-c" href="search.html?category=Electronics" aria-label="Shop Electronics" data-cat="Electronics"><span class="tile-label">Electronics</span></a>
+  </div>
+</div></section>
+
+<section class="section"><div class="container">
+  <div class="section-head"><h2>Shop by category</h2><a href="search.html" class="link">View all</a></div>
+  <div class="cats">
+    <a href="search.html?category=Fashion" class="cat ph ph-a"><span>Fashion</span></a>
+    <a href="search.html?category=Electronics" class="cat ph ph-b"><span>Electronics</span></a>
+    <a href="search.html?category=Home" class="cat ph ph-c"><span>Home and Living</span></a>
+    <a href="search.html?category=Beauty" class="cat ph ph-d"><span>Beauty</span></a>
+    <a href="search.html?category=Sports" class="cat ph ph-a"><span>Sports</span></a>
+    <a href="search.html?category=Books" class="cat ph ph-b"><span>Books</span></a>
+  </div>
+</div></section>
+
+<section class="section alt"><div class="container">
+  <div class="section-head"><h2>Featured products</h2>
+    <div class="sort"><label for="sort">Sort by</label><select id="sort"><option>Featured</option><option>Price: low to high</option><option>Price: high to low</option><option>Top rated</option></select></div>
+  </div>
+  <div class="shop">
+    <aside class="filters" aria-label="Filters" id="home-filters">
+      <h3>Filters</h3>
+      <fieldset><legend>Category</legend><label><input type="checkbox" name="category" value="Fashion"> Fashion</label><label><input type="checkbox" name="category" value="Electronics"> Electronics</label><label><input type="checkbox" name="category" value="Home"> Home</label><label><input type="checkbox" name="category" value="Beauty"> Beauty</label><label><input type="checkbox" name="category" value="Sports"> Sports</label><label><input type="checkbox" name="category" value="Books"> Books</label></fieldset>
+      <fieldset><legend>Price</legend><label for="pmax">Up to ₹<output id="pout">20000</output></label><input id="pmax" type="range" min="100" max="20000" value="20000" step="100"></fieldset>
+      <fieldset><legend>Rating</legend><label><input type="radio" name="rating" value="0" checked> Any</label><label><input type="radio" name="rating" value="4"> 4 and above</label><label><input type="radio" name="rating" value="3"> 3 and above</label></fieldset>
+      <fieldset><legend>Vendor</legend><div id="vendor-filters"><span class="muted">Loading vendors...</span></div></fieldset>
+      <button class="btn btn-block" type="button" id="apply-filters">Apply filters</button>
+      <button class="btn btn-ghost btn-block" type="button" id="clear-filters" style="margin-top:.6rem">Clear filters</button>
+    </aside>
+    <div class="grid" id="featured-grid"></div>
+  </div>
+</div></section>
+
+<section class="promo"><div class="container promo-row">
+  <div><h2>Your first order, 10% less</h2><p>Apply the code at checkout. Valid on orders above ₹1,499 until the end of the month.</p></div>
+  <div class="code" aria-label="Coupon code">WELCOME10</div>
+</div></section>
+
+<section class="section"><div class="container">
+  <div class="section-head"><h2>Vendors we trust</h2><a href="vendors.html" class="link">All vendors</a></div>
+  <div class="vendors"></div>
+</div></section>
+
+<section class="section alt"><div class="container">
+  <div class="section-head"><h2>How an order works</h2></div>
+  <ol class="steps">
+    <li><h3>Browse and add</h3><p>Mix products from any vendor in a single cart.</p></li>
+    <li><h3>Pay once</h3><p>We split the payment between vendors automatically.</p></li>
+    <li><h3>Track each item</h3><p>Placed, packed, shipped and delivered, shown per vendor.</p></li>
+    <li><h3>Review</h3><p>Rate what you received after delivery.</p></li>
+  </ol>
+</div></section>
+
+<section class="section"><div class="container">
+  <div class="section-head"><h2>What customers say</h2></div>
+  <div class="reviews">
+    <blockquote><p>The kurta fabric is better than the photos. Arrived packed in two days.</p><cite>Ananya R., Bengaluru</cite></blockquote>
+    <blockquote><p>Returning an item took one tap, and the refund came within a week.</p><cite>Karthik S., Chennai</cite></blockquote>
+    <blockquote><p>As a seller, onboarding was quick and payouts are clearly itemised.</p><cite>Meera D., vendor</cite></blockquote>
+  </div>
+</div></section>
+
+<section class="sell"><div class="container sell-row">
+  <div><h2>Sell on Vistora</h2><p>List your products, reach new customers, and receive payouts after a flat 10% commission.</p></div>
+  <a href="vendor-register.html" class="btn btn-gold btn-lg">Apply as a vendor</a>
+</div></section>
+</main>
+
+<footer class="footer"><div class="container">
+  <div class="foot-grid">
+    <div><a href="index.html" class="logo light">Vistora</a><p>A marketplace for independent vendors and the people who shop with them.</p>
+      <form class="news" action="#"><label class="sr" for="em">Email address</label><input id="em" type="email" placeholder="Your email address"><button class="btn btn-gold" type="submit">Subscribe</button></form></div>
+    <div><h4>Shop</h4><a href="search.html">All products</a><a href="search.html?sort=new">New arrivals</a><a href="vendors.html">Vendors</a><a href="coupons.html">Offers</a></div>
+    <div><h4>Account</h4><a href="login.html">Sign in</a><a href="orders.html">My orders</a><a href="wishlist.html">Wishlist</a><a href="cart.html">Cart</a></div>
+    <div><h4>Sell</h4><a href="vendor-register.html">Become a vendor</a><a href="vendor/dashboard.html">Vendor login</a><a href="admin/dashboard.html">Admin</a></div>
+    <div><h4>Support</h4><a href="shipping.html">Shipping</a><a href="returns.html">Returns &amp; Refunds</a><a href="faq.html">FAQs</a><a href="contact.html">Contact us</a><a href="privacy.html">Privacy policy</a><a href="terms.html">Terms &amp; Conditions</a></div>
+  </div>
+  <div class="foot-bottom"><span>© 2026 Vistora. All rights reserved.</span><span>Payments by Razorpay (test mode)</span></div>
+</div></footer>
+<script src="js/config.js" defer></script>
+<script src="js/api.js" defer></script>
+<script src="js/main.js" defer></script>
+<script src="js/home.js" defer></script>
+</body>
+</html>

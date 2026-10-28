@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Store | Vistora</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Jost:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<style>
+[hidden]{display:none!important}
+.inner-nav{background:#2F4A38;padding:14px 24px;display:flex;flex-wrap:wrap;gap:8px 20px;align-items:center;font-family:Arial,sans-serif}
+.inner-nav a{color:#fff;text-decoration:none;font-family:Arial,sans-serif;font-size:16px}
+.inner-nav .logo{font-weight:bold;font-size:20px;margin-right:auto;color:#fff;letter-spacing:normal}
+.inner-nav .badge{display:inline;min-width:0;height:auto;margin:0;padding:0;background:none;color:#fff;font-weight:normal;font-size:inherit;border-radius:0}
+.state,.muted{color:var(--ink-2)}
+.state{padding:3rem 0;text-align:center}
+.store-head{display:flex;gap:1.6rem;align-items:center;background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:1.8rem;margin-bottom:1rem}
+.store-head .avatar{flex:0 0 auto;width:84px;height:84px;font-size:1.6rem}
+.store-head h1{font-size:clamp(1.8rem,3.5vw,2.6rem);margin-bottom:.4rem}
+.store-meta{display:flex;gap:.8rem;flex-wrap:wrap;align-items:center;color:var(--ink-2);font-size:.92rem}
+.chip-cat{display:inline-block;padding:.15rem .8rem;border-radius:999px;background:var(--pale);color:var(--forest);font-size:.85rem}
+.store-head .about{margin-top:.7rem;color:var(--ink-2);max-width:70ch;white-space:pre-line}
+.more-wrap{text-align:center;margin-top:2rem}
+.store-top{margin:1.2rem 0 1.6rem}
+@media(max-width:600px){.store-head{flex-direction:column;align-items:flex-start}}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<nav class="inner-nav" aria-label="Main"><a class="logo" href="index.html">Vistora</a><a href="vendors.html">Vendors</a><a href="coupons.html">Offers</a><a href="login.html">Sign in</a><a href="wishlist.html">Wishlist</a><a href="cart.html">Cart (<span class="badge">0</span>)</a></nav>
+
+<main id="main"><div class="container" style="padding:2rem 0 4rem">
+  <p id="state" class="state">Loading store...</p>
+
+  <div id="store" hidden>
+    <section class="store-head">
+      <div class="avatar ph-a" id="s-avatar" aria-hidden="true"></div>
+      <div>
+        <h1 id="s-name"></h1>
+        <p class="store-meta"><span class="chip-cat" id="s-cat"></span><span id="s-since"></span><span id="s-count"></span></p>
+        <p class="about" id="s-about"></p>
+      </div>
+    </section>
+    <p class="store-top"><a class="link" href="vendors.html">← Back to all vendors</a></p>
+
+    <div class="section-head"><h2>Products</h2>
+      <div class="sort"><label for="s-sort">Sort by</label>
+        <select id="s-sort"><option value="new">Newest</option><option value="low">Price: low to high</option><option value="high">Price: high to low</option><option value="rating">Top rated</option></select>
+      </div>
+    </div>
+    <div class="grid" id="s-grid"></div>
+    <p id="s-empty" class="muted" hidden>This shop has no products yet. Please check back soon.</p>
+    <p class="more-wrap"><button id="s-more" type="button" class="btn btn-ghost" hidden>Show more</button></p>
+  </div>
+</div></main>
+
+<footer class="footer"><div class="container">
+  <div class="foot-grid">
+    <div><a href="index.html" class="logo light">Vistora</a><p>A marketplace for independent vendors and the people who shop with them.</p></div>
+    <div><h4>Shop</h4><a href="search.html">All products</a><a href="search.html?sort=new">New arrivals</a><a href="vendors.html">Vendors</a><a href="coupons.html">Offers</a></div>
+    <div><h4>Account</h4><a href="login.html">Sign in</a><a href="orders.html">My orders</a><a href="wishlist.html">Wishlist</a><a href="cart.html">Cart</a></div>
+    <div><h4>Sell</h4><a href="vendor-register.html">Become a vendor</a><a href="vendor/dashboard.html">Vendor login</a><a href="admin/dashboard.html">Admin</a></div>
+    <div><h4>Support</h4><a href="shipping.html">Shipping</a><a href="returns.html">Returns &amp; Refunds</a><a href="faq.html">FAQs</a><a href="contact.html">Contact us</a><a href="privacy.html">Privacy policy</a><a href="terms.html">Terms &amp; Conditions</a></div>
+  </div>
+  <div class="foot-bottom"><span>© 2026 Vistora. All rights reserved.</span><span>Payments by Razorpay (test mode)</span></div>
+</div></footer>
+<script src="js/config.js" defer></script>
+<script src="js/api.js" defer></script>
+<script src="js/main.js" defer></script>
+<script src="js/vendor-store.js" defer></script>
+</body>
+</html>

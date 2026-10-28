@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vendor dashboard | Vistora</title>
+<style>
+body{margin:0;font-family:Arial,sans-serif;background:#E6F2DD;color:#1E2B22}
+nav{background:#2F4A38;padding:14px 24px;display:flex;flex-wrap:wrap;gap:8px 20px;align-items:center}
+nav a{color:#fff;text-decoration:none}nav .logo{font-weight:bold;font-size:20px;margin-right:auto}
+nav a.on{border-bottom:2px solid #B08D57}
+main{max-width:1000px;margin:30px auto;padding:0 16px}
+h1{color:#2F4A38}a{color:#2F4A38}
+.box{background:#fff;border:1px solid #B1D3B9;border-radius:6px;padding:20px;margin-bottom:16px}
+label{display:block;margin:12px 0 4px}
+input,select,textarea{width:100%;padding:10px;border:1px solid #88BDA4;border-radius:4px;box-sizing:border-box;font:inherit;background:#fff;min-height:44px}
+textarea{min-height:90px}input[type=checkbox]{width:auto;min-height:0}
+button,.btn{background:#5C7057;color:#fff;border:0;padding:10px 18px;border-radius:4px;cursor:pointer;text-decoration:none;display:inline-block;font-size:15px;min-height:44px}
+button:hover,.btn:hover{background:#2F4A38}button:disabled{background:#B1D3B9;color:#3D4F42;cursor:default}
+.ghost{background:#fff;color:#2F4A38;border:1px solid #5C7057}.ghost:hover{background:#D1EDD3;color:#2F4A38}
+.narrow{max-width:420px;margin:0 auto}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:0 16px}
+.head{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin:16px 0}
+.stat{background:#fff;border:1px solid #B1D3B9;border-top:3px solid #B08D57;border-radius:6px;padding:16px}
+.stat span{font-size:14px;color:#3D4F42}.stat b{display:block;font-size:26px;color:#2F4A38}
+.chart{display:flex;align-items:flex-end;gap:10px;height:200px}
+.chart div{flex:1;height:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;font-size:13px;gap:6px}
+.chart i{display:block;width:70%;background:#5C7057;border-radius:4px 4px 0 0}
+.table-wrap{overflow-x:auto;background:#fff;border:1px solid #B1D3B9;border-radius:6px}
+table{width:100%;border-collapse:collapse;min-width:520px}
+th,td{padding:12px;border-bottom:1px solid #D1EDD3;text-align:left}th{background:#D1EDD3}
+.chip{display:inline-block;padding:3px 10px;border-radius:14px;font-size:13px;background:#D1EDD3;color:#1E4A2C}
+.chip.placed{background:#DCEBF5;color:#1D4560}.chip.packed,.chip.pending{background:#F6E9C8;color:#5E4512}
+.chip.shipped{background:#D9DDF3;color:#2D3470}.chip.out{background:#F3D9D6;color:#6B2019}
+.toolbar{display:flex;gap:10px;margin-bottom:12px;flex-wrap:wrap}.toolbar input{flex:1;min-width:200px}
+.upload{border:2px dashed #89A482;border-radius:6px;padding:16px;background:#F5FAF1}
+.msg{background:#D1EDD3;border:1px solid #88BDA4;padding:10px;border-radius:4px;margin-top:12px}.msg:empty{display:none}
+@media(max-width:600px){.row2{grid-template-columns:1fr}nav{padding:12px 16px}}
+.head a.btn{align-self:center;display:inline-flex;align-items:center;justify-content:center;box-sizing:border-box;height:40px;min-height:0;width:auto;padding:0 18px;font-size:14px;line-height:1}
+.t-actions{display:flex;gap:8px}
+.t-actions .btn,.t-actions button{height:34px;min-height:0;padding:0 12px;font-size:14px;display:inline-flex;align-items:center;justify-content:center;box-sizing:border-box}
+</style>
+</head>
+<body data-role="vendor">
+<nav><a class="logo" href="dashboard.html">Vistora Vendor</a><a href="dashboard.html" class="on">Dashboard</a><a href="products.html">Products</a><a href="product-form.html">Add product</a><a href="orders.html">Orders</a><a href="../index.html">View store</a><a href="../login.html">Sign out</a></nav>
+<main>
+<div class="head"><h1>Vendor dashboard</h1><a class="btn" href="product-form.html">Add product</a></div>
+<div class="stats">
+<div class="stat"><span>Total sales</span><b id="st-sales">...</b></div>
+<div class="stat"><span>Orders received</span><b id="st-orders">...</b></div>
+<div class="stat"><span>Products listed</span><b id="st-products">...</b></div>
+<div class="stat"><span>Your payout</span><b id="st-payout">...</b><span id="st-commission"></span></div>
+</div>
+<p id="dash-note" class="small"></p>
+<div class="box"><h2>Sales in the last 7 days</h2><div class="chart" id="sales-chart" role="img" aria-label="Sales in the last 7 days"></div></div>
+<h2>Recent orders</h2>
+<div class="table-wrap"><table id="recent-orders"><thead><tr><th>Order</th><th>Items</th><th>Amount</th><th>Status</th></tr></thead><tbody></tbody></table></div>
+<p><a href="orders.html">See all orders</a></p>
+</main>
+<script src="../js/config.js" defer></script>
+<script src="../js/api.js" defer></script>
+<script src="../js/main.js" defer></script>
+<script src="../js/products.js" defer></script>
+</body>
+</html>

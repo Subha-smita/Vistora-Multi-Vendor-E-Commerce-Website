@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Product | Vistora</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Jost:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<style>
+[hidden]{display:none!important}
+.inner-nav{background:#2F4A38;padding:14px 24px;display:flex;flex-wrap:wrap;gap:8px 20px;align-items:center;font-family:Arial,sans-serif}
+.inner-nav a{color:#fff;text-decoration:none;font-family:Arial,sans-serif;font-size:16px}
+.inner-nav .logo{font-weight:bold;font-size:20px;margin-right:auto;color:#fff;letter-spacing:normal}
+.inner-nav .badge{display:inline;min-width:0;height:auto;margin:0;padding:0;background:none;color:#fff;font-weight:normal;font-size:inherit;border-radius:0}
+.state,.muted{color:var(--ink-2)}
+.state{padding:3rem 0;text-align:center}
+
+/* Layout */
+.pd{display:grid;grid-template-columns:1.05fr 1fr;gap:3rem;align-items:start;padding:2.5rem 0}
+@media(max-width:860px){.pd{grid-template-columns:1fr;gap:1.5rem}}
+
+/* Gallery */
+.gallery{position:sticky;top:1rem;outline-offset:6px}
+@media(max-width:860px){.gallery{position:static}}
+.g-stage{position:relative;aspect-ratio:4/5;border-radius:var(--r);overflow:hidden;background:linear-gradient(145deg,var(--teal),var(--mint));box-shadow:var(--shadow)}
+.g-stage img{width:100%;height:100%;object-fit:cover;display:block}
+.g-btn{position:absolute;top:50%;transform:translateY(-50%);width:42px;height:42px;border-radius:50%;border:0;background:rgba(255,255,255,.93);color:var(--forest);font-size:24px;line-height:1;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.25)}
+.g-btn:hover{background:#fff}
+.g-prev{left:.8rem}.g-next{right:.8rem}
+.g-count{position:absolute;right:.8rem;bottom:.8rem;background:rgba(30,43,34,.78);color:#fff;font-size:.8rem;padding:.2rem .7rem;border-radius:999px}
+.g-thumbs{display:flex;gap:.6rem;margin-top:.8rem;flex-wrap:wrap}
+.g-thumb{padding:0;width:74px;height:74px;border:2px solid transparent;border-radius:var(--r);overflow:hidden;cursor:pointer;background:#fff;opacity:.7;transition:opacity .2s,border-color .2s}
+.g-thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.g-thumb:hover{opacity:1}
+.g-thumb[aria-current="true"]{border-color:var(--gold);opacity:1}
+
+/* Info */
+.info .card-vendor{display:inline-block;margin-bottom:.4rem}
+.info h1{font-size:clamp(1.9rem,3.5vw,2.8rem);margin-bottom:.6rem}
+.rating-line{display:flex;gap:.6rem;align-items:center;color:var(--ink-2);font-size:.95rem}
+.stars{color:var(--gold);letter-spacing:.08em;white-space:nowrap}
+.info .price{display:block;font-size:2rem;margin:1rem 0 .3rem}
+.stock{font-weight:500;font-size:.95rem}
+.stock.ok{color:#1B6B35}.stock.low{color:#9A5B00}.stock.out{color:#B3261E}
+.chip-cat{display:inline-block;margin:.9rem 0 0;padding:.2rem .8rem;border-radius:999px;background:var(--pale);color:var(--forest);font-size:.85rem}
+.desc{margin-top:1rem;color:var(--ink-2);white-space:pre-line;max-width:60ch}
+.buy{display:flex;gap:.8rem;align-items:center;margin-top:1.6rem;flex-wrap:wrap}
+
+/* Reviews */
+.reviews-sec{padding:1rem 0 4rem;border-top:1px solid var(--line)}
+.reviews-sec>h2{margin:2rem 0 1.2rem}
+.rv-top{display:grid;grid-template-columns:200px 1fr;gap:2rem;align-items:center;margin-bottom:1.8rem}
+@media(max-width:600px){.rv-top{grid-template-columns:1fr}}
+.rv-score b{display:block;font:700 3.2rem/1 var(--serif);color:var(--forest)}
+.rv-score .stars{font-size:1.2rem}
+.rv-score span.small{display:block;color:var(--ink-2);font-size:.9rem;margin-top:.2rem}
+.rv-bar{display:grid;grid-template-columns:34px 1fr 30px;gap:.6rem;align-items:center;font-size:.85rem;color:var(--ink-2);margin:.25rem 0}
+.rv-track{height:8px;background:var(--pale);border-radius:99px;overflow:hidden}
+.rv-track i{display:block;height:100%;background:var(--gold)}
+.rv-box{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:1.4rem;margin-bottom:1.6rem}
+.rv-box label{display:block;font-weight:500;margin:.9rem 0 .3rem}
+.rv-box input[type=text],.rv-box textarea{width:100%;padding:.7rem .8rem;border:1px solid var(--mist);border-radius:var(--r);font:inherit;background:var(--paper)}
+.rv-box textarea{min-height:110px;resize:vertical}
+.rv-actions{display:flex;gap:.8rem;margin-top:1rem;flex-wrap:wrap}
+fieldset.rate{border:0;padding:0;margin:0}
+fieldset.rate legend{font-weight:500;padding:0;margin-bottom:.2rem}
+.star-input{display:flex;flex-direction:row-reverse;justify-content:flex-end;gap:.15rem}
+.star-input input{position:absolute;opacity:0;width:1px;height:1px}
+.star-input label{margin:0;font-size:2rem;line-height:1;color:#C9D6C6;cursor:pointer;font-weight:400}
+.star-input input:checked~label,.star-input label:hover,.star-input label:hover~label{color:var(--gold)}
+.star-input input:focus-visible+label{outline:3px solid var(--gold);outline-offset:2px;border-radius:4px}
+.review{padding:1.2rem 0;border-bottom:1px solid var(--line)}
+.review-head{display:flex;gap:.8rem;align-items:center;flex-wrap:wrap}
+.review-head time{color:var(--ink-2);font-size:.85rem;margin-left:auto}
+.badge-v{font-size:.78rem;color:#1B6B35;background:#DDF3E4;padding:.1rem .6rem;border-radius:99px}
+.review h4{font:600 1.1rem var(--sans);margin:.5rem 0 .2rem;color:var(--ink)}
+.review p{color:var(--ink-2);white-space:pre-line}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<nav class="inner-nav" aria-label="Main"><a class="logo" href="index.html">Vistora</a><a href="vendors.html">Vendors</a><a href="coupons.html">Offers</a><a href="login.html">Sign in</a><a href="wishlist.html">Wishlist</a><a href="cart.html">Cart (<span class="badge">0</span>)</a></nav>
+
+<main id="main"><div class="container">
+  <p id="state" class="state">Loading product...</p>
+
+  <div id="page" hidden>
+    <div class="pd" id="pd">
+      <section class="gallery" id="gallery" tabindex="0" aria-label="Product images">
+        <div class="g-stage">
+          <img id="g-main" alt="" hidden>
+          <button type="button" class="g-btn g-prev" id="g-prev" aria-label="Previous image">‹</button>
+          <button type="button" class="g-btn g-next" id="g-next" aria-label="Next image">›</button>
+          <span class="g-count" id="g-count"></span>
+        </div>
+        <div class="g-thumbs" id="g-thumbs"></div>
+      </section>
+
+      <section class="info">
+        <a class="card-vendor" id="p-vendor" href="vendors.html"></a>
+        <h1 id="p-name"></h1>
+        <a class="rating-line" href="#reviews"><span class="stars" id="p-stars" role="img"></span><span id="p-rating-text"></span></a>
+        <span class="price" id="p-price"></span>
+        <span class="stock" id="p-stock"></span><br>
+        <span class="chip-cat" id="p-cat"></span>
+        <p class="desc" id="p-desc"></p>
+        <div class="buy">
+          <button type="button" class="btn btn-lg" id="p-add" data-action="add">Add to cart</button>
+          <button type="button" class="wishlist-btn" data-action="wishlist" aria-label="Add to wishlist">♡</button>
+        </div>
+      </section>
+    </div>
+
+    <section class="reviews-sec" id="reviews" aria-labelledby="rv-h">
+      <h2 id="rv-h">Customer reviews</h2>
+      <div class="rv-top">
+        <div class="rv-score"><b id="rv-avg">–</b><span class="stars" id="rv-stars" role="img"></span><span class="small" id="rv-count"></span></div>
+        <div id="rv-bars"></div>
+      </div>
+
+      <div class="rv-box">
+        <h3>Write a review</h3>
+        <p id="rv-note" class="muted"></p>
+        <form id="rv-form" hidden>
+          <fieldset class="rate">
+            <legend>Your rating</legend>
+            <div class="star-input">
+              <input type="radio" id="st5" name="rating" value="5"><label for="st5" title="5 stars">★</label>
+              <input type="radio" id="st4" name="rating" value="4"><label for="st4" title="4 stars">★</label>
+              <input type="radio" id="st3" name="rating" value="3"><label for="st3" title="3 stars">★</label>
+              <input type="radio" id="st2" name="rating" value="2"><label for="st2" title="2 stars">★</label>
+              <input type="radio" id="st1" name="rating" value="1"><label for="st1" title="1 star">★</label>
+            </div>
+          </fieldset>
+          <label for="rv-title">Headline (optional)</label>
+          <input id="rv-title" type="text" maxlength="100">
+          <label for="rv-comment">Your review (optional)</label>
+          <textarea id="rv-comment" maxlength="1000"></textarea>
+          <div class="rv-actions">
+            <button type="submit" class="btn" id="rv-submit">Submit review</button>
+            <button type="button" class="btn btn-ghost" id="rv-delete" hidden>Delete my review</button>
+          </div>
+        </form>
+      </div>
+
+      <div id="rv-list"></div>
+    </section>
+  </div>
+</div></main>
+
+<footer class="footer"><div class="container">
+  <div class="foot-grid">
+    <div><a href="index.html" class="logo light">Vistora</a><p>A marketplace for independent vendors and the people who shop with them.</p></div>
+    <div><h4>Shop</h4><a href="search.html">All products</a><a href="search.html?sort=new">New arrivals</a><a href="vendors.html">Vendors</a><a href="coupons.html">Offers</a></div>
+    <div><h4>Account</h4><a href="login.html">Sign in</a><a href="orders.html">My orders</a><a href="wishlist.html">Wishlist</a><a href="cart.html">Cart</a></div>
+    <div><h4>Sell</h4><a href="vendor-register.html">Become a vendor</a><a href="vendor/dashboard.html">Vendor login</a><a href="admin/dashboard.html">Admin</a></div>
+    <div><h4>Support</h4><a href="shipping.html">Shipping</a><a href="returns.html">Returns &amp; Refunds</a><a href="faq.html">FAQs</a><a href="contact.html">Contact us</a><a href="privacy.html">Privacy policy</a><a href="terms.html">Terms &amp; Conditions</a></div>
+  </div>
+  <div class="foot-bottom"><span>© 2026 Vistora. All rights reserved.</span><span>Payments by Razorpay (test mode)</span></div>
+</div></footer>
+<script src="js/config.js" defer></script>
+<script src="js/api.js" defer></script>
+<script src="js/main.js" defer></script>
+<script src="js/product-page.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Create Account - Vistora</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #E6F2DD;
+      color: #1E2B22;
+    }
+    main {
+      max-width: 440px;
+      margin: 40px auto;
+      padding: 20px;
+      background: white;
+      border: 1px solid #B1D3B9;
+      border-radius: 6px;
+    }
+    h1 { color: #2F4A38; }
+    label {
+      display: block;
+      margin: 14px 0 5px;
+    }
+    input {
+      width: 100%;
+      padding: 10px;
+      box-sizing: border-box;
+      border: 1px solid #88BDA4;
+      border-radius: 4px;
+      font: inherit;
+    }
+    button {
+      margin-top: 18px;
+      padding: 11px 20px;
+      background: #5C7057;
+      color: white;
+      border: 0;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    button:hover { background: #2F4A38; }
+    button:disabled { opacity: .6; cursor: not-allowed; }
+    #message { overflow-wrap: anywhere; margin-top: 14px; }
+    #message.info    { color: #2F4A38; }
+    #message.success { color: #1B6B35; font-weight: bold; }
+    #message.error   { color: #B3261E; font-weight: bold; }
+    a { color: #2F4A38; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Create an account</h1>
+
+    <form id="register-form">
+      <label for="name">Full Name</label>
+      <input id="name" type="text" autocomplete="name" required>
+
+      <label for="email">Email</label>
+      <input id="email" type="email" autocomplete="email" required>
+
+      <label for="password">Password</label>
+      <input id="password" type="password" autocomplete="new-password" minlength="8" required>
+
+      <button id="submit-btn" type="submit">Create Account</button>
+    </form>
+
+    <p id="message" role="status" aria-live="polite"></p>
+    <p>Already registered? <a href="login.html">Sign in</a></p>
+  </main>
+
+  <script src="js/config.js"></script>
+  <script>
+    const form = document.getElementById("register-form");
+    const message = document.getElementById("message");
+    const button = document.getElementById("submit-btn");
+
+    function show(text, type) {
+      message.textContent = text;
+      message.className = type;
+    }
+
+    form.addEventListener("submit", async function (event) {
+      event.preventDefault();
+
+      if (typeof API_URL === "undefined") {
+        show("Configuration error: API_URL is missing. Check js/config.js.", "error");
+        return;
+      }
+
+      const endpoint = String(API_URL).replace(/\/+$/, "") + "/auth/register";
+
+      button.disabled = true;
+      show("Creating account...", "info");
+
+      try {
+        const response = await fetch(endpoint, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            name: document.getElementById("name").value.trim(),
+            email: document.getElementById("email").value.trim(),
+            password: document.getElementById("password").value
+          })
+        });
+
+        const data = await response.json().catch(function () { return {}; });
+
+        if (!response.ok) {
+          throw new Error(data.error || data.message || "Registration failed (error " + response.status + ").");
+        }
+
+        show("Account created successfully! Redirecting to sign in...", "success");
+
+        // Keep ?redirect=... so vendor sign-up can continue after login
+        setTimeout(function () {
+          window.location.href = "login.html" + location.search;
+        }, 1500);
+
+      } catch (error) {
+        const failedToReach =
+          error instanceof TypeError || error.message === "Failed to fetch";
+
+        show(
+          failedToReach
+            ? "Cannot connect to the server. Check that the backend is running and the API address in js/config.js is correct."
+            : error.message,
+          "error"
+        );
+        button.disabled = false;
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Product approvals | Vistora</title>
+<style>
+body{margin:0;font-family:Arial,sans-serif;background:#E6F2DD;color:#1E2B22}
+nav{background:#2F4A38;padding:14px 24px;display:flex;flex-wrap:wrap;gap:8px 20px;align-items:center}
+nav a{color:#fff;text-decoration:none}nav .logo{font-weight:bold;font-size:20px;margin-right:auto}
+nav a.on{border-bottom:2px solid #B08D57}
+main{max-width:1000px;margin:30px auto;padding:0 16px}
+h1{color:#2F4A38}
+select{padding:10px;border:1px solid #88BDA4;border-radius:4px;font:inherit;background:#fff;min-height:44px;margin-bottom:12px}
+button{background:#5C7057;color:#fff;border:0;padding:8px 14px;border-radius:4px;cursor:pointer;font-size:14px;min-height:38px}
+button:hover{background:#2F4A38}button:disabled{background:#B1D3B9;cursor:default}
+.ghost{background:#fff;color:#2F4A38;border:1px solid #5C7057}.ghost:hover{background:#D1EDD3;color:#2F4A38}
+.table-wrap{overflow-x:auto;background:#fff;border:1px solid #B1D3B9;border-radius:6px}
+table{width:100%;border-collapse:collapse;min-width:720px}
+th,td{padding:12px;border-bottom:1px solid #D1EDD3;text-align:left;vertical-align:middle}th{background:#D1EDD3}
+td img{width:56px;height:56px;object-fit:cover;border-radius:4px;display:block}
+.chip{display:inline-block;padding:3px 10px;border-radius:14px;font-size:13px;background:#D1EDD3;color:#1E4A2C}
+.chip.pending{background:#F6E9C8;color:#5E4512}.chip.out{background:#F3D9D6;color:#6B2019}
+</style>
+</head>
+<body data-role="admin">
+<nav><a class="logo" href="dashboard.html">Vistora Admin</a><a href="dashboard.html">Analytics</a><a href="vendors.html">Vendor approvals</a><a href="products.html" class="on">Product approvals</a><a href="coupons.html">Coupons</a><a href="orders.html">All orders</a><a href="../index.html">View store</a><a href="../login.html">Sign out</a></nav>
+<main>
+<h1>Product approvals</h1>
+<label for="status-filter" style="display:none">Status</label>
+<select id="status-filter">
+  <option value="pending">Pending</option>
+  <option value="active">Approved (live)</option>
+  <option value="rejected">Rejected</option>
+</select>
+<div class="table-wrap"><table id="product-table">
+<thead><tr><th>Image</th><th>Product</th><th>Vendor</th><th>Category</th><th>Price</th><th>Status</th><th>Action</th></tr></thead>
+<tbody></tbody>
+</table></div>
+</main>
+<script src="../js/config.js" defer></script>
+<script src="../js/api.js" defer></script>
+<script src="../js/main.js" defer></script>
+<script src="../js/admin-products.js" defer></script>
+</body>
+</html>

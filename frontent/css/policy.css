@@ -1,0 +1,58 @@
+/* Policy pages: dark green theme. Load after style.css */
+
+/* Top bar, same look as the cart and search pages */
+.inner-nav{background:#2F4A38;padding:14px 24px;display:flex;flex-wrap:wrap;gap:8px 20px;align-items:center;font-family:Arial,sans-serif}
+.inner-nav a{color:#fff;text-decoration:none;font-family:Arial,sans-serif;font-size:16px}
+.inner-nav .logo{font-weight:bold;font-size:20px;margin-right:auto;color:#fff;letter-spacing:normal}
+.inner-nav .badge{display:inline;min-width:0;height:auto;margin:0;padding:0;background:none;color:#fff;font-weight:normal;font-size:inherit;border-radius:0}
+
+/* Title band */
+.policy-hero{background:var(--forest);color:#fff;padding:3.5rem 0 3rem}
+.policy-hero h1{color:var(--cream);margin-bottom:.6rem}
+.policy-hero p{color:var(--pale);max-width:60ch;font-size:1.1rem}
+
+/* Layout: side menu + content */
+.policy-layout{display:grid;grid-template-columns:240px 1fr;gap:3rem;padding:3rem 0 4.5rem;align-items:start}
+.policy-menu{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:1rem;position:sticky;top:1rem}
+.policy-menu h2{font-size:1.2rem;margin-bottom:.6rem}
+.policy-menu a{display:block;padding:.6rem .7rem;border-radius:var(--r);color:var(--ink);font-size:.95rem}
+.policy-menu a:hover{background:var(--cream)}
+.policy-menu a[aria-current="page"]{background:var(--forest);color:#fff}
+
+/* Content */
+.policy-body{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:2.2rem 2.4rem;min-width:0}
+.policy-body h2{font-size:1.6rem;margin:2rem 0 .6rem;padding-top:1.2rem;border-top:1px solid var(--line)}
+.policy-body h2:first-child{margin-top:0;padding-top:0;border-top:0}
+.policy-body p{margin:.6rem 0;color:var(--ink-2)}
+.policy-body ul,.policy-body ol{margin:.6rem 0 .6rem 1.2rem;padding:0;color:var(--ink-2)}
+.policy-body li{margin:.35rem 0}
+.policy-body a{color:var(--forest);text-decoration:underline;text-decoration-color:var(--gold)}
+.policy-body table{width:100%;border-collapse:collapse;margin:1rem 0;font-size:.95rem}
+.policy-body th{text-align:left;background:var(--cream);color:var(--forest);padding:.7rem .9rem}
+.policy-body td{padding:.7rem .9rem;border-top:1px solid var(--line);vertical-align:top}
+.updated{font-size:.88rem;color:var(--ink-2);margin-bottom:1.2rem}
+.notice{background:var(--cream);border-left:4px solid var(--gold);padding:.9rem 1.1rem;border-radius:var(--r);margin:1rem 0;color:var(--ink)}
+
+/* Text you must replace with your real details */
+.todo{background:#FFF3B0;padding:0 .3rem;border-radius:3px}
+
+/* Contact cards */
+.contact-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:1rem;margin:1rem 0}
+.contact-card{border:1px solid var(--line);border-top:3px solid var(--gold);border-radius:var(--r);padding:1.1rem 1.2rem;background:var(--paper)}
+.contact-card h3{font-size:1.15rem;margin-bottom:.3rem}
+.contact-card p{margin:.2rem 0}
+
+/* FAQ accordion */
+.faq details{border:1px solid var(--line);border-radius:var(--r);margin:.6rem 0;background:var(--paper)}
+.faq summary{cursor:pointer;padding:.9rem 1.1rem;font-weight:500;color:var(--forest);list-style:none;display:flex;justify-content:space-between;gap:1rem}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";font-size:1.3rem;line-height:1;color:var(--gold-d)}
+.faq details[open] summary::after{content:"−"}
+.faq details[open] summary{border-bottom:1px solid var(--line)}
+.faq details p{padding:.2rem 1.1rem .9rem;margin:.7rem 0 0}
+
+@media(max-width:900px){
+  .policy-layout{grid-template-columns:1fr;gap:1.5rem;padding:2rem 0 3rem}
+  .policy-menu{position:static}
+  .policy-body{padding:1.5rem 1.2rem}
+}
