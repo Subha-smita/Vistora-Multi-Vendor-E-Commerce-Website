@@ -40,7 +40,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 // Configure permitted frontend origins.
 
 const allowedOrigins = [
-  "https://tiny-belekoy-4c4373.netlify.app"
+  "https://vistora-multi-vendor-e-commerce-web-one.vercel.app"
 ];
 
 app.use(
