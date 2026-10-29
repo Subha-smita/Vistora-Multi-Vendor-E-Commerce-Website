@@ -998,39 +998,93 @@ if (
     });
 }
 
-// Show the signed-in name and a Sign out link in the header.
+
+ // Show the signed-in name and Sign out link in the header.
 (function showSignedInUser() {
-  const flash = sessionStorage.getItem('flash');
+  const flash = sessionStorage.getItem("flash");
+
   if (flash) {
-    sessionStorage.removeItem('flash');
-    showToast(flash, 'success', 3500);
+    sessionStorage.removeItem("flash");
+    showToast(flash, "success", 3500);
   }
 
-  let user = null;
-  try { user = JSON.parse(localStorage.getItem('user') || 'null'); } catch {}
-  if (!user || !localStorage.getItem('token')) return;
+  function updateAccountNavbar() {
+    const nav = document.querySelector("nav.actions");
+    if (!nav) return;
 
-  const firstName = String(user.name || 'Account').trim().split(/\s+/)[0];
+    let user = null;
 
-  document.querySelectorAll('nav a[href$="login.html"]').forEach((link) => {
-    link.textContent = 'Hi, ' + firstName;
-    link.href = user.role === 'admin' ? 'admin/dashboard.html'
-      : user.role === 'vendor' ? 'vendor/dashboard.html'
-      : 'orders.html';
+    try {
+      user = JSON.parse(localStorage.getItem("user") || "null");
+    } catch {
+      user = null;
+    }
 
-    const out = document.createElement('a');
-    out.href = '#';
-    out.textContent = 'Sign out';
-    out.addEventListener('click', (e) => {
-      e.preventDefault();
-      localStorage.removeItem('token');
-      localStorage.removeItem('user');
-      localStorage.removeItem('cart');
-      location.href = 'index.html';
-    });
-    link.after(out);
-  });
+    const loggedIn = Boolean(
+      localStorage.getItem("token") && user
+    );
+
+    let accountLink = nav.querySelector("#account-link");
+    let signOutLink = nav.querySelector("#sign-out-link");
+
+    if (!accountLink) {
+      accountLink = nav.querySelector('a[href="login.html"]');
+    }
+
+    if (!loggedIn) {
+      signOutLink?.remove();
+
+      if (accountLink) {
+        accountLink.id = "account-link";
+        accountLink.textContent = "Sign in";
+        accountLink.href = "login.html";
+      }
+
+      return;
+    }
+
+    if (!accountLink) {
+      accountLink = document.createElement("a");
+      nav.prepend(accountLink);
+    }
+
+    accountLink.id = "account-link";
+
+    const firstName = String(user.name || "Account")
+      .trim()
+      .split(/\s+/)[0];
+
+    accountLink.textContent = "Hi, " + firstName;
+
+    accountLink.href =
+      user.role === "admin" ? "admin/dashboard.html" :
+      user.role === "vendor" ? "vendor/dashboard.html" :
+      "orders.html";
+
+    if (!signOutLink) {
+      signOutLink = document.createElement("a");
+      signOutLink.id = "sign-out-link";
+      signOutLink.textContent = "Sign out";
+      nav.insertBefore(signOutLink, accountLink.nextSibling);
+    }
+
+    signOutLink.onclick = function (event) {
+      event.preventDefault();
+
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
+      localStorage.removeItem("cart");
+
+      window.location.href = "index.html";
+    };
+  }
+
+  updateAccountNavbar();
+
+  window.addEventListener("pageshow", updateAccountNavbar);
+  window.addEventListener("storage", updateAccountNavbar);
 })();
+
 
 // Load the saved wishlist on the wishlist page.
 loadWishlist();
