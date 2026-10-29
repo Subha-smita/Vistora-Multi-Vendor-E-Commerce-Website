@@ -998,5 +998,24 @@ if (
     });
 }
 
+// Show the signed-in name in the header and the login message.
+(function showSignedInUser() {
+  const flash = sessionStorage.getItem('flash');
+  if (flash) {
+    sessionStorage.removeItem('flash');
+    showToast(flash, 'success', 3500);
+  }
+
+  let user = null;
+  try { user = JSON.parse(localStorage.getItem('user') || 'null'); } catch {}
+  if (!user || !localStorage.getItem('token')) return;
+
+  const firstName = String(user.name || 'Account').trim().split(/\s+/)[0];
+  document.querySelectorAll('a[href$="login.html"]').forEach((link) => {
+    link.textContent = 'Hi, ' + firstName;
+  });
+})();
+
+
 // Load the saved wishlist on the wishlist page.
 loadWishlist();
