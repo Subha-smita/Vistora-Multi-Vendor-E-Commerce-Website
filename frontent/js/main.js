@@ -999,7 +999,7 @@ if (
 }
 
 
- // Show the signed-in name and Sign out link in the header.
+// Show the signed-in name and Sign out link in the header.
 (function showSignedInUser() {
   const flash = sessionStorage.getItem("flash");
 
@@ -1020,12 +1020,21 @@ if (
       user = null;
     }
 
-    const loggedIn = Boolean(
-      localStorage.getItem("token") && user
-    );
+    const loggedIn = Boolean(localStorage.getItem("token") && user);
 
     let accountLink = nav.querySelector("#account-link");
     let signOutLink = nav.querySelector("#sign-out-link");
+
+    // Remove duplicate Sign out links.
+    const logoutLinks = [...nav.querySelectorAll("a")].filter(link =>
+      /^sign\s*out(?:\s*\(.*\))?$/i.test(link.textContent.trim())
+    );
+
+    signOutLink = signOutLink || logoutLinks[0] || null;
+
+    logoutLinks.forEach(link => {
+      if (link !== signOutLink) link.remove();
+    });
 
     if (!accountLink) {
       accountLink = nav.querySelector('a[href="login.html"]');
@@ -1063,10 +1072,12 @@ if (
 
     if (!signOutLink) {
       signOutLink = document.createElement("a");
-      signOutLink.id = "sign-out-link";
-      signOutLink.textContent = "Sign out";
       nav.insertBefore(signOutLink, accountLink.nextSibling);
     }
+
+    signOutLink.id = "sign-out-link";
+    signOutLink.textContent = "Sign out";
+    signOutLink.href = "#";
 
     signOutLink.onclick = function (event) {
       event.preventDefault();
