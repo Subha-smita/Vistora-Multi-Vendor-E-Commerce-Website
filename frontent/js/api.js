@@ -52,6 +52,7 @@ function redirectAfterLogin(user) {
 function logout() {
   localStorage.removeItem("token");
   localStorage.removeItem("user");
+   sessionStorage.setItem("flash", "You have been signed out.");
   window.location.href = ROOT + "index.html";
 }
 
@@ -175,7 +176,7 @@ if (redirectParam) {
 const loginLink = document.querySelector('nav a[href$="login.html"]');
 
 if (currentUser && loginLink) {
-  loginLink.textContent = "Sign out";
+    loginLink.textContent = "Sign out (" + (currentUser.name || "").split(" ")[0] + ")";
   loginLink.href = "#signout";
 
   loginLink.addEventListener("click", (event) => {
@@ -411,6 +412,33 @@ document.addEventListener("click", async (event) => {
     showToast(error.message, 'error');
   } finally {
     button.disabled = false;
+  }
+});
+
+function saveLogin(data) {
+  if (!data?.token || !data?.user) {
+    throw new Error("Login response is missing the user or token.");
+  }
+
+  if (!["customer", "vendor", "admin"].includes(data.user.role)) {
+    throw new Error("Invalid account role returned by the server.");
+  }
+
+  // ...your existing lines that save the token and user stay here...
+
+  // Message shown on the next page (add this line at the end of the function)
+  sessionStorage.setItem("flash", "You are signed in as " + (data.user.name || "your account") + ".");
+}
+
+// Show a one-time message saved before the page changed
+document.addEventListener("DOMContentLoaded", () => {
+  const flash = sessionStorage.getItem("flash");
+  if (!flash) return;
+
+  sessionStorage.removeItem("flash");
+
+  if (typeof showToast === "function") {
+    showToast(flash, "success", 3500);
   }
 });
 
