@@ -27,7 +27,7 @@ import { releaseUnpaidOrders } from "./src/services/orderService.js";
 import couponRoutes from "./src/routes/coupons.js";
 
 const app = express();
-
+app.set("trust proxy", 1);
 
 // Validate required environment variables.
 if (!process.env.MONGO_URI || !process.env.JWT_SECRET) {
