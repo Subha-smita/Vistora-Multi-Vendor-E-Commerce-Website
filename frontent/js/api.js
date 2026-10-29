@@ -415,6 +415,7 @@ document.addEventListener("click", async (event) => {
   }
 });
 
+
 function saveLogin(data) {
   if (!data?.token || !data?.user) {
     throw new Error("Login response is missing the user or token.");
@@ -424,23 +425,17 @@ function saveLogin(data) {
     throw new Error("Invalid account role returned by the server.");
   }
 
-  // ...your existing lines that save the token and user stay here...
+  // Save the login session
+  localStorage.setItem("token", data.token);
+  localStorage.setItem("user", JSON.stringify(data.user));
 
-  // Message shown on the next page (add this line at the end of the function)
-  sessionStorage.setItem("flash", "You are signed in as " + (data.user.name || "your account") + ".");
+  // Show a message after redirecting
+  sessionStorage.setItem(
+    "flash",
+    "You are signed in as " + (data.user.name || "your account") + "."
+  );
 }
 
-// Show a one-time message saved before the page changed
-document.addEventListener("DOMContentLoaded", () => {
-  const flash = sessionStorage.getItem("flash");
-  if (!flash) return;
-
-  sessionStorage.removeItem("flash");
-
-  if (typeof showToast === "function") {
-    showToast(flash, "success", 3500);
-  }
-});
 
 // Load applications on admin pages.
 if (needed === "admin") {
