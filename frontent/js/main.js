@@ -1013,6 +1013,9 @@ if (
   const firstName = String(user.name || 'Account').trim().split(/\s+/)[0];
   document.querySelectorAll('a[href$="login.html"]').forEach((link) => {
     link.textContent = 'Hi, ' + firstName;
+    link.href =user.role === 'admin' ? 'admin/dashboard.html'
+      : user.role === 'vendor' ? 'vendor/dashboard.html'
+      : 'orders.html';
   });
 })();
 
