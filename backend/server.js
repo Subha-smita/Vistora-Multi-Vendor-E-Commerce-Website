@@ -40,7 +40,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 // Configure permitted frontend origins.
 
 const allowedOrigins = [
- "https://vistora-multi-vendor-e-commerce-web.vercel.app"
+  "https://vistora-multi-vendor-e-commerce-website-frontent-6uvk6di85.vercel.app"
 ];
 
 app.use(
