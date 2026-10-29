@@ -328,7 +328,7 @@ async function addToWishlist(button) {
       body: { productId }
     });
 
-    button.textContent = 'Saved';
+    //button.textContent = 'Saved';
   } catch (error) {
     showToast(error.message || 'Could not add this product to your wishlist.', 'error');
   }
