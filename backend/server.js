@@ -26,6 +26,8 @@ import paymentRoutes, { razorpayWebhook } from "./src/routes/payments.js";
 import { releaseUnpaidOrders } from "./src/services/orderService.js";
 import couponRoutes from "./src/routes/coupons.js";
 
+const app = express();
+
 
 // Validate required environment variables.
 if (!process.env.MONGO_URI || !process.env.JWT_SECRET) {
