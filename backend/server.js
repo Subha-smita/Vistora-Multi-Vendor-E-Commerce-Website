@@ -11,7 +11,8 @@ import productRoutes, {
   vendorProductRoutes
 } from "./src/routes/products.js";
 import reviewRoutes from "./src/routes/reviews.js";
-import imageRoutes from "./src/routes/images.js";
+
+import imageRoutes from "./src/routes/image.js";
 
 
 import path from "path";
@@ -87,7 +88,6 @@ app.use("/api/invoices", invoiceRoutes);
 app.use("/api/payments", paymentRoutes);
 app.use("/api/reviews", reviewRoutes);
 app.use("/api/coupons", couponRoutes);
-
 app.use("/api/images", imageRoutes);
 
 
