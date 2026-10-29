@@ -86,53 +86,6 @@ async function loadCartFromApi() {
   return cacheBackendCart(data);
 }
 
-// 3. Add a product to the backend cart.
-async function addToCart(button) {
-  const box = button.closest('[data-id]');
-  const productId = box?.dataset.id;
-
-  if (!productId) {
-    showToast('Could not identify this product. Please open it from the product listing.');
-    return;
-  }
-
-  if (!isCustomerLoggedIn()) {
-    showToast('Please sign in as a customer before adding products to your cart.', 'error');
-    setTimeout(() => { location.href = 'login.html'; }, 1500);
-    return;
-  }
-
-  if (typeof api !== 'function') {
-    showToast('API configuration is missing. Please check config.js and api.js.');
-    return;
-  }
-
-  try {
-    button.disabled = true;
-
-    await api('/cart/items', {
-      method: 'POST',
-      body: {
-        productId,
-        quantity: 1
-      }
-    });
-
-    await loadCartFromApi();
-
-    button.textContent = 'Added';
-
-    setTimeout(() => {
-      if (button.isConnected) {
-        button.textContent = 'Add to cart';
-      }
-    }, 1200);
-  } catch (error) {
-    showToast(error.message || 'Could not add this product to your cart.', 'error');
-  } finally {
-    button.disabled = false;
-  }
-}
 
 // 4. Render cart rows.
 function showCart() {
