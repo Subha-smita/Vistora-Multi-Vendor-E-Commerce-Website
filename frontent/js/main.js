@@ -998,7 +998,7 @@ if (
     });
 }
 
-// Show the signed-in name in the header and the login message.
+// Show the signed-in name and a Sign out link in the header.
 (function showSignedInUser() {
   const flash = sessionStorage.getItem('flash');
   if (flash) {
@@ -1011,14 +1011,26 @@ if (
   if (!user || !localStorage.getItem('token')) return;
 
   const firstName = String(user.name || 'Account').trim().split(/\s+/)[0];
-  document.querySelectorAll('a[href$="login.html"]').forEach((link) => {
+
+  document.querySelectorAll('nav a[href$="login.html"]').forEach((link) => {
     link.textContent = 'Hi, ' + firstName;
-    link.href =user.role === 'admin' ? 'admin/dashboard.html'
+    link.href = user.role === 'admin' ? 'admin/dashboard.html'
       : user.role === 'vendor' ? 'vendor/dashboard.html'
       : 'orders.html';
+
+    const out = document.createElement('a');
+    out.href = '#';
+    out.textContent = 'Sign out';
+    out.addEventListener('click', (e) => {
+      e.preventDefault();
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+      localStorage.removeItem('cart');
+      location.href = 'index.html';
+    });
+    link.after(out);
   });
 })();
-
 
 // Load the saved wishlist on the wishlist page.
 loadWishlist();
