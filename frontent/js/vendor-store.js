@@ -113,7 +113,17 @@
       const name = v.shopName || "Store";
       document.title = name + " | Vistora";
       $("s-name").textContent = name;
-      $("s-avatar").textContent = name.split(/\s+/).slice(0, 2).map((w) => w[0]).join("").toUpperCase();
+
+       const av = $("s-avatar");
+      if (v.image) {
+        av.textContent = "";
+        av.style.backgroundImage = 'url("' + origin + "/api/images/" + encodeURIComponent(v.image) + '")';
+        av.style.backgroundSize = "cover";
+        av.style.backgroundPosition = "center";
+      } else {
+        av.textContent = name.split(/\s+/).slice(0, 2).map((w) => w[0]).join("").toUpperCase();
+      }
+
       $("s-cat").textContent = v.category || "";
       $("s-cat").hidden = !v.category;
       $("s-since").textContent = v.createdAt
