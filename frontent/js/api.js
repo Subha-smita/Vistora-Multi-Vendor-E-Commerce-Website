@@ -175,17 +175,17 @@ if (redirectParam) {
 }
 
 // Change the navigation sign-in link into a sign-out link.
-const loginLink = document.querySelector('nav a[href$="login.html"]');
+//const loginLink = document.querySelector('nav a[href$="login.html"]');
 
-if (currentUser && loginLink) {
-    loginLink.textContent = "Sign out (" + (currentUser.name || "").split(" ")[0] + ")";
-  loginLink.href = "#signout";
+//if (currentUser && loginLink) {
+  //  loginLink.textContent = "Sign out (" + (currentUser.name || "").split(" ")[0] + ")";
+  //loginLink.href = "#signout";
 
-  loginLink.addEventListener("click", (event) => {
-    event.preventDefault();
-    logout();
-  });
-}
+  //loginLink.addEventListener("click", (event) => {
+  //  event.preventDefault();
+  //  logout();
+  //});
+//}
 
 // Vendors and admins get a Dashboard link on the shop pages
 if (
