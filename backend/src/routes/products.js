@@ -1,12 +1,13 @@
 import { Router } from 'express';
 import mongoose from 'mongoose';
 import multer from 'multer';
-import path from 'path';
-import fs from 'fs';
-import crypto from 'crypto';
+
+//import fs from 'fs';
+//import crypto from 'crypto';
 import Product from '../models/Product.js';
 import Vendor from '../models/Vendor.js';
 import { authenticate, authorize } from '../middleware/auth.js';
+import ProductImage from '../models/ProductImage.js';
 
 const wrap = (fn) => (req, res, next) => Promise.resolve(fn(req, res, next)).catch(next);
 const escapeRegex = (text) => text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -89,18 +90,15 @@ router.get('/:id', async (req, res) => {
 });
 router.use(handleErrors);
 
-// ---------- Image upload (up to 10 images per product, saved on disk) ----------
-const UPLOAD_DIR = path.join(__dirname, 'uploads', 'products');
-fs.mkdirSync(UPLOAD_DIR, { recursive: true });
-const EXT = { 'image/jpeg': '.jpg', 'image/png': '.png', 'image/webp': '.webp' };
+// ---------- Image upload (up to 10 images per product, saved in MongoDB) ----------
+const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/webp'];
 
 const upload = multer({
-  storage: multer.diskStorage({
-    destination: (req, file, cb) => cb(null, UPLOAD_DIR),
-    filename: (req, file, cb) => cb(null, crypto.randomUUID() + EXT[file.mimetype]),
-  }),
+  storage: multer.memoryStorage(),
   fileFilter: (req, file, cb) =>
-    EXT[file.mimetype] ? cb(null, true) : cb(new Error('Only JPG, PNG or WEBP images are allowed.')),
+    ALLOWED_TYPES.includes(file.mimetype)
+      ? cb(null, true)
+      : cb(new Error('Only JPG, PNG or WEBP images are allowed.')),
   limits: { fileSize: 5 * 1024 * 1024, files: 10 },
 });
 
@@ -115,9 +113,36 @@ function uploadImages(req, res, next) {
   });
 }
 
-const removeFiles = (paths) =>
-  (paths || []).forEach((p) => fs.unlink(path.join(UPLOAD_DIR, path.basename(String(p))), () => {}));
+// Address of this API, used to build image links
+const apiBase = (req) => process.env.PUBLIC_API_URL || req.protocol + '://' + req.get('host');
 
+// Saves the uploaded files in MongoDB and returns their ids and links
+async function storeImages(req, files) {
+  const saved = await ProductImage.insertMany(
+    files.map((f) => ({
+      vendor: req.vendor._id,
+      filename: f.originalname,
+      contentType: f.mimetype,
+      data: f.buffer,
+    }))
+  );
+  return {
+    ids: saved.map((s) => s._id),
+    urls: saved.map((s) => apiBase(req) + '/api/images/' + s._id),
+  };
+}
+
+// Finds the image ids inside links like https://.../api/images/<id>
+const imageIds = (urls) =>
+  (urls || [])
+    .map((u) => String(u).match(/\/api\/images\/([a-f0-9]{24})/i)?.[1])
+    .filter(Boolean);
+
+// Deletes the stored images that belong to these links
+const removeImages = async (urls) => {
+  const ids = imageIds(urls);
+  if (ids.length) await ProductImage.deleteMany({ _id: { $in: ids } }).catch(() => {});
+};
 // ---------- Vendor: manage only your own products ----------
 export const vendorProductRoutes = Router();
 vendorProductRoutes.use(authenticate, authorize('vendor'));
@@ -140,7 +165,7 @@ vendorProductRoutes.get('/', wrap(async (req, res) => {
 // Add a product: the vendor can do this as many times as they like
 vendorProductRoutes.post('/', uploadImages, async (req, res, next) => {
   const files = req.files || [];
-  const cleanup = () => files.forEach((f) => fs.unlink(f.path, () => {}));
+  let savedIds = [];
   try {
     const data = pick(req.body);
     const price = Number(data.price);
@@ -148,10 +173,14 @@ vendorProductRoutes.post('/', uploadImages, async (req, res, next) => {
 
     if (!String(data.name || '').trim() || !String(data.category || '').trim() ||
         !Number.isFinite(price) || price <= 0 || !Number.isInteger(stock) || stock < 0) {
-      cleanup();
       return res.status(400).json({ error: 'Enter a name, a category, a price above 0 and a stock of 0 or more.' });
     }
-    if (files.length) data.images = files.map((f) => req.protocol + '://' + req.get('host') + '/uploads/products/' + f.filename);
+
+    if (files.length) {
+      const stored = await storeImages(req, files);
+      savedIds = stored.ids;
+      data.images = stored.urls;
+    }
     if (!Array.isArray(data.images) || !data.images.length) {
       return res.status(400).json({ error: 'Add at least one image.' });
     }
@@ -166,26 +195,52 @@ vendorProductRoutes.post('/', uploadImages, async (req, res, next) => {
     });
     res.status(201).json(product);
   } catch (error) {
-    cleanup();
+    if (savedIds.length) await ProductImage.deleteMany({ _id: { $in: savedIds } }).catch(() => {});
     next(error);
   }
 });
 
-vendorProductRoutes.put('/:id', wrap(async (req, res) => {
+vendorProductRoutes.put('/:id', uploadImages, wrap(async (req, res) => {
   if (!mongoose.isValidObjectId(req.params.id)) return res.status(404).json({ error: 'Product not found.' });
-  const product = await Product.findOneAndUpdate({ _id: req.params.id, vendor: req.vendor._id }, pick(req.body), {
-    new: true,
-    runValidators: true,
-  });
-  if (!product) return res.status(404).json({ error: 'Product not found.' });
-  res.json(product);
+
+  const existing = await Product.findOne({ _id: req.params.id, vendor: req.vendor._id }).select('images');
+  if (!existing) return res.status(404).json({ error: 'Product not found.' });
+
+  const data = pick(req.body);
+  const files = req.files || [];
+  let savedIds = [];
+
+  if (files.length) {
+    const stored = await storeImages(req, files);
+    savedIds = stored.ids;
+    data.images = stored.urls;
+  }
+
+  try {
+    const product = await Product.findOneAndUpdate({ _id: existing._id, vendor: req.vendor._id }, data, {
+      new: true,
+      runValidators: true,
+    });
+    if (!product) return res.status(404).json({ error: 'Product not found.' });
+
+    // Remove stored images that the product no longer uses
+    if (data.images) {
+      const kept = new Set(product.images);
+      await removeImages(existing.images.filter((url) => !kept.has(url)));
+    }
+    res.json(product);
+  } catch (error) {
+    if (savedIds.length) await ProductImage.deleteMany({ _id: { $in: savedIds } }).catch(() => {});
+    throw error;
+  }
 }));
 
 vendorProductRoutes.delete('/:id', wrap(async (req, res) => {
   if (!mongoose.isValidObjectId(req.params.id)) return res.status(404).json({ error: 'Product not found.' });
   const product = await Product.findOneAndDelete({ _id: req.params.id, vendor: req.vendor._id });
   if (!product) return res.status(404).json({ error: 'Product not found.' });
-  removeFiles(product.images);
+ // removeFiles(product.images);
+   await removeImages(product.images);
   res.json({ message: 'Deleted.' });
 }));
 
