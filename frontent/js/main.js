@@ -1011,6 +1011,12 @@ if (
     const nav = document.querySelector("nav.actions");
     if (!nav) return;
 
+    document.querySelectorAll("a").forEach(link => {
+  if (/^Sign out\s*\(.+\)$/i.test(link.textContent.trim())) {
+    link.remove();
+  }
+});
+
     let user = null;
 
     try {
