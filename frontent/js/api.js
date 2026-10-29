@@ -28,7 +28,7 @@ function saveLogin(data) {
     throw new Error("Invalid account role returned by the server.");
   }
 
-   sessionStorage.setItem("flash", "You are signed in as " + (data.user.name || "your account") + ".");
+  sessionStorage.setItem("flash", "You are signed in as " + (data.user.name || "your account") + ".");
 
   localStorage.setItem("token", data.token);
   localStorage.setItem("user", JSON.stringify(data.user));
