@@ -998,7 +998,6 @@ if (
     });
 }
 
-
 // Show the signed-in name and Sign out link in the header.
 (function showSignedInUser() {
   const flash = sessionStorage.getItem("flash");
@@ -1023,14 +1022,16 @@ if (
     const loggedIn = Boolean(localStorage.getItem("token") && user);
 
     let accountLink = nav.querySelector("#account-link");
-    let signOutLink = nav.querySelector("#sign-out-link");
+    let signOutLink;
 
-    // Remove duplicate Sign out links.
-    const logoutLinks = [...nav.querySelectorAll("a")].filter(link =>
+    // Find ALL sign-out links anywhere in the header/page nav
+    const scope = nav.closest("header") || document;
+    const logoutLinks = [...scope.querySelectorAll("a")].filter(link =>
+      link.id === "sign-out-link" ||
       /^sign\s*out(?:\s*\(.*\))?$/i.test(link.textContent.trim())
     );
 
-    signOutLink = signOutLink || logoutLinks[0] || null;
+    signOutLink = logoutLinks.find(l => nav.contains(l)) || logoutLinks[0] || null;
 
     logoutLinks.forEach(link => {
       if (link !== signOutLink) link.remove();
@@ -1091,6 +1092,8 @@ if (
   }
 
   updateAccountNavbar();
+  setTimeout(updateAccountNavbar, 0);
+  setTimeout(updateAccountNavbar, 300);
 
   window.addEventListener("pageshow", updateAccountNavbar);
   window.addEventListener("storage", updateAccountNavbar);
