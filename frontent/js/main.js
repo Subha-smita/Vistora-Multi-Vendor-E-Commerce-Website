@@ -86,6 +86,53 @@ async function loadCartFromApi() {
   return cacheBackendCart(data);
 }
 
+// 3. Add a product to the backend cart.
+async function addToCart(button) {
+  const box = button.closest('[data-id]');
+  const productId = box?.dataset.id;
+
+  if (!productId) {
+    showToast('Could not identify this product. Please open it from the product listing.');
+    return;
+  }
+
+  if (!isCustomerLoggedIn()) {
+    showToast('Please sign in as a customer before adding products to your cart.', 'error');
+    setTimeout(() => { location.href = 'login.html'; }, 1500);
+    return;
+  }
+
+  if (typeof api !== 'function') {
+    showToast('API configuration is missing. Please check config.js and api.js.');
+    return;
+  }
+
+  try {
+    button.disabled = true;
+
+    await api('/cart/items', {
+      method: 'POST',
+      body: {
+        productId,
+        quantity: 1
+      }
+    });
+
+    await loadCartFromApi();
+
+    button.textContent = 'Added';
+
+    setTimeout(() => {
+      if (button.isConnected) {
+        button.textContent = 'Add to cart';
+      }
+    }, 1200);
+  } catch (error) {
+    showToast(error.message || 'Could not add this product to your cart.', 'error');
+  } finally {
+    button.disabled = false;
+  }
+}
 
 // 4. Render cart rows.
 function showCart() {
@@ -932,79 +979,6 @@ if (
         cell.textContent = error.message || 'Could not load your cart.';
       }
     });
-}
-
-// Add a product to the logged-in customer's cart in MongoDB.
-async function addToCart(button) {
-  const box = button.closest('.item[data-id], .card[data-id], .pd[data-id], article[data-id]');
-  const productId = box?.dataset.id;
-
-  if (!productId || productId === 'undefined') {
-    console.error('Product ID missing. Button:', button, 'Product card:', box);
-    showToast('Product ID is missing. Check the product data loaded from the backend.');
-    return;
-  }
-
-  // Check whether the customer is signed in before adding the product.
-  if (!isCustomerLoggedIn()) {
-    showToast('Please sign in before adding products to your cart.', 'error');
-    setTimeout(() => { location.href = 'login.html'; }, 1500);
-    return;
-  }
-
-  try {
-    button.disabled = true;
-
-    await api('/cart/items', {
-      method: 'POST',
-      body: { productId, quantity: 1 }
-    });
-
-    await loadCartFromApi();
-    button.textContent = 'Added';
-  } catch (error) {
-    showToast(error.message || 'Could not add this product to your cart.', 'error');
-  } finally {
-    button.disabled = false;
-  }
-}
-
-// Add a product to the customer's wishlist
-async function addToWishlist(button) {
-  const card = button.closest("[data-id]");
-  const productId = card?.dataset.id;
-
-  if (!productId) {
-    showToast("Could not identify this product.");
-    return;
-  }
-
-  // Require customer login
-  if (!localStorage.getItem("token")) {
-    showToast("Please log in to add products to your wishlist.", 'error');
-    setTimeout(() => { window.location.href = "login.html"; }, 1500);
-    return;
-  }
-
-  try {
-    button.disabled = true;
-
-    await api("/wishlist/items", {
-      method: "POST",
-      body: { productId }
-    });
-
-    button.textContent = "♥";
-    button.classList.add("active");
-    button.setAttribute("aria-label", "Added to wishlist");
-    button.title = "Added to wishlist";
-
-    showToast("Product added to your wishlist!", "success");
-  } catch (error) {
-    showToast(error.message || "Could not add product to wishlist.", 'error');
-  } finally {
-    button.disabled = false;
-  }
 }
 
 // Load the saved wishlist on the wishlist page.
