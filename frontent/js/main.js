@@ -249,27 +249,27 @@ async function loadWishlist() {
       card.className = 'item';
       card.dataset.id = product._id;
 
- 
-if (product.images?.[0]) {
-  const img = document.createElement('img');
+    
+    if (product.images?.[0]) {
+      const img = document.createElement('img');
 
-  const imageUrl = product.images[0];
+      const imageUrl = product.images[0];
 
-  img.src = imageUrl.startsWith('http://localhost:5000')
-    ? imageUrl.replace(
-        'http://localhost:5000',
-        'https://vistora-multi-vendor-e-commerce-website.onrender.com'
-      )
-    : imageUrl;
+      img.src = imageUrl.startsWith('http://localhost:5000')
+        ? imageUrl.replace(
+            'http://localhost:5000',
+            'https://vistora-multi-vendor-e-commerce-website.onrender.com'
+          )
+        : imageUrl;
 
-  img.alt = product.name || 'Product image';
-  img.loading = 'lazy';
-  img.style.width = '100%';
-  img.style.height = '140px';
-  img.style.objectFit = 'cover';
+      img.alt = product.name || 'Product image';
+      img.loading = 'lazy';
+      img.style.width = '100%';
+      img.style.height = '140px';
+      img.style.objectFit = 'cover';
 
-  card.appendChild(img);
-}
+      card.appendChild(img);
+    }
 
       const name = document.createElement('h3');
       name.textContent = product.name || 'Product';

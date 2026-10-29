@@ -19,8 +19,31 @@
   const id = new URLSearchParams(location.search).get("id");
   const toast = (m, t) => (typeof showToast === "function" ? showToast(m, t || "success", 5000) : alert(m));
   const money = (n) => "₹" + Number(n).toLocaleString("en-IN");
-  const origin = (() => { try { return new URL(API_URL).origin; } catch { return ""; } })();
-  const fullUrl = (u) => (/^(https?:|data:)/.test(u) ? u : origin + (u.startsWith("/") ? "" : "/") + u);
+  const origin = (() => {
+    try {
+      return new URL(API_URL).origin;
+    } catch {
+      return "";
+    }
+  })();
+
+  const fullUrl = (u) => {
+    if (!u) return "";
+
+    // Upgrade insecure Render image URLs to HTTPS
+    if (u.startsWith("http://vistora-multi-vendor-e-commerce-website.onrender.com")) {
+      return u.replace(
+        "http://vistora-multi-vendor-e-commerce-website.onrender.com",
+        "https://vistora-multi-vendor-e-commerce-website.onrender.com"
+      );
+    }
+
+    // Preserve other absolute URLs and data URLs
+    if (/^(https?:|data:)/i.test(u)) return u;
+
+    // Build URLs for relative image paths
+    return origin + (u.startsWith("/") ? "" : "/") + u;
+  };
   const stars = (n) => { const r = Math.max(0, Math.min(5, Math.round(n))); return "★".repeat(r) + "☆".repeat(5 - r); };
 
   function el(tag, cls, text) {
