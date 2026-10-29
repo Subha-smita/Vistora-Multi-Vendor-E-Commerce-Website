@@ -33,14 +33,19 @@ const upload = multer({
 
 // Handle Multer errors without crashing the route.
 const uploadProductImages = (req, res, next) => {
-  upload.array("productImages", 5)(req, res, (error) => {
+  upload.fields([
+    { name: "shopImage", maxCount: 1 },
+    { name: "productImages", maxCount: 5 }
+  ])(req, res, (error) => {
     if (error) {
       const message =
         error.code === "LIMIT_FILE_SIZE"
           ? "Each image must be no larger than 5 MB."
           : error.code === "LIMIT_FILE_COUNT"
             ? "You can upload a maximum of 5 images."
-            : error.message || "Image upload failed.";
+            : error.code === "LIMIT_UNEXPECTED_FILE"
+              ? "Unexpected file field or too many images."
+              : error.message || "Image upload failed.";
 
       return res.status(400).json({ error: message });
     }

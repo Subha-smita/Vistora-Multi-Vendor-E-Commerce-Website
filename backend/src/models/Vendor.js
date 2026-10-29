@@ -78,6 +78,13 @@ const vendorSchema = new mongoose.Schema(
       select: false
     },
 
+    // Shop logo/banner (id of a ProductImage document).
+    image: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "ProductImage",
+      default: null
+    },
+
     // Admin approval status.
     status: {
       type: String,
