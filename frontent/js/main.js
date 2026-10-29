@@ -255,12 +255,13 @@ async function loadWishlist() {
 
       const imageUrl = product.images[0];
 
-      img.src = imageUrl.startsWith('http://localhost:5000')
-        ? imageUrl.replace(
-            'http://localhost:5000',
-            'https://vistora-multi-vendor-e-commerce-website.onrender.com'
-          )
-        : imageUrl;
+    img.src = imageUrl.replace(
+      /^http:\/\/vistora-multi-vendor-e-commerce-website\.onrender\.com/i,
+      'https://vistora-multi-vendor-e-commerce-website.onrender.com'
+    ).replace(
+      /^http:\/\/localhost:5000/i,
+      'https://vistora-multi-vendor-e-commerce-website.onrender.com'
+    );
 
       img.alt = product.name || 'Product image';
       img.loading = 'lazy';
