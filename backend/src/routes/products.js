@@ -90,7 +90,7 @@ router.get('/:id', async (req, res) => {
 router.use(handleErrors);
 
 // ---------- Image upload (up to 10 images per product, saved on disk) ----------
-const UPLOAD_DIR = path.join(process.cwd(), 'uploads', 'products');
+const UPLOAD_DIR = path.join(__dirname, 'uploads', 'products');
 fs.mkdirSync(UPLOAD_DIR, { recursive: true });
 const EXT = { 'image/jpeg': '.jpg', 'image/png': '.png', 'image/webp': '.webp' };
 

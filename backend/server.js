@@ -14,7 +14,6 @@ import reviewRoutes from "./src/routes/reviews.js";
 
 import path from "path";
 import { fileURLToPath } from "url";
-
 import cartRoutes from "./src/routes/cart.js";
 import wishlistRoutes from "./src/routes/wishlist.js";
 import orderRoutes from "./src/routes/orders.js";
@@ -25,14 +24,11 @@ import { releaseUnpaidOrders } from "./src/services/orderService.js";
 import couponRoutes from "./src/routes/coupons.js";
 
 
-
 // Validate required environment variables.
 if (!process.env.MONGO_URI || !process.env.JWT_SECRET) {
   console.error("Set MONGO_URI and JWT_SECRET in your .env file.");
   process.exit(1);
 }
-
-const app = express();
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
