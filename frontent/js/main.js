@@ -302,6 +302,7 @@ async function loadWishlist() {
 }
 
 // 6. Add a product to the wishlist.
+
 async function addToWishlist(button) {
   const box = button.closest('[data-id]');
   const productId = box?.dataset.id;
@@ -313,7 +314,9 @@ async function addToWishlist(button) {
 
   if (!isCustomerLoggedIn()) {
     showToast('Please sign in to save products to your wishlist.', 'error');
-    setTimeout(() => { location.href = 'login.html'; }, 1500);
+    setTimeout(() => {
+      location.href = 'login.html';
+    }, 1500);
     return;
   }
 
@@ -323,16 +326,29 @@ async function addToWishlist(button) {
   }
 
   try {
+    button.disabled = true;
+
     await api('/wishlist/items', {
       method: 'POST',
       body: { productId }
     });
 
-    //button.textContent = 'Saved';
+    // Keep the heart icon instead of displaying "Saved".
+    button.classList.add('active');
+    button.innerHTML = '♥';
+    button.setAttribute('aria-label', 'Remove from wishlist');
+
+    showToast('Added to your wishlist.', 'success');
   } catch (error) {
-    showToast(error.message || 'Could not add this product to your wishlist.', 'error');
+    showToast(
+      error.message || 'Could not add this product to your wishlist.',
+      'error'
+    );
+  } finally {
+    button.disabled = false;
   }
 }
+
 
 // 7. Remove a product from the wishlist.
 async function removeWishlistProduct(productId, button) {
